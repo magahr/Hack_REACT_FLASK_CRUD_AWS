@@ -32,6 +32,14 @@
    DB_HOST=formulariosrds.chwqcma4ef8n.us-east-2.rds.amazonaws.com
    DB_PORT=5432
    DB_NAME=formularios
+
+   este es con la nueva BD
+  DB_USER=postgres
+  DB_PASSWORD=postgres
+  DB_HOST=formularios02rds.chwqcma4ef8n.us-east-2.rds.amazonaws.com
+  DB_PORT=5432
+  DB_NAME=formularios
+
     
 # Paso 6.- Salir de Visual CODE
 
@@ -80,7 +88,35 @@
           password postgres
        \l (lista la BD)
     -Crear la BASE DE DATOS
-       CREATE DATABASE estudiantes_grupo_8;
+       
+-- Table: public.formulario
+
+-- DROP TABLE IF EXISTS public.formulario;
+
+CREATE TABLE IF NOT EXISTS public.formulario
+(
+    id integer NOT NULL DEFAULT nextval('formulario_id_seq'::regclass),
+    nombre character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    edad integer NOT NULL,
+    email character varying(50) COLLATE pg_catalog."default",
+    CONSTRAINT formulario_pkey PRIMARY KEY (id)
+   
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.formulario
+    OWNER to postgres;
+
+OTRA FORMA:
+
+CREATE TABLE formulario
+(
+    id serial PRIMARY KEY,
+    nombre VARCHAR (50) UNIQUE NOT NULL,
+    edad integer NOT NULL,
+    email VARCHAR (50) NOT NULL
+)
 
  
 
@@ -133,4 +169,5 @@ Control de cambio
 1.- git commit -m "16-11-2024 - Starting with aws"
 1.- git commit -m "16-11-2024 - Changing everythin with conecting with aws"
 2.- git commit -m "17-11-2024 - Conecting with AWS and testing the API"
+3.- git commit -m "15-12-2024 - Testing my backend with flask"
 
