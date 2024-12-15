@@ -55,7 +55,7 @@ with app.app_context():
 
 @app.route("/")
 def hello_world():
-    return "<p>(hello_AWS) -    Hello, Big World from Hack_REACT_FLASK_CRUD_AWS!</p>"
+    return "<p> Hello, From AWS - My back and BD is in AWS - !</p>"
 
 
 # POST -> Se utiliza para enviar datos al servidor para su procesamiento
