@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 from flask_cors import CORS
 from dotenv import load_dotenv
+import psycopg2
 import os
 
 load_dotenv()
