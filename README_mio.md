@@ -79,7 +79,7 @@
        # pip install -r requeriments.txt
 
     Si no está creado, o se quiere actualizar:
-       # pip freeze > requeriments.txt
+       # pip freeze > requirements.txt
 
 # Paso 12: Crear una nueva rama para trabajar desde alli
      git checkout -b feature/flask-con-base-de-datos
