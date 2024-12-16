@@ -170,6 +170,25 @@ CREATE TABLE formulario
 
 # Paso 16: Probar algunos de los endpoints ya creados, los cuales puedes conseguir yendo directamente al archivo hello.py 
 
+# Paso 17: Al bajar el proyecto en aws en el servidor AWS
+
+sudo apt update
+sudo apt install python3
+sudo apt install python3-pip
+sudo apt install python3.12-venv -y
+ls /opt
+cd /opt
+ls
+sudo git clone https://github.com/magahr/Hack_REACT_FLASK_CRUD_AWS.git
+sudo chmod 755 Hack_REACT_FLASK_CRUD_AWS/
+ls  -la
+cd Hack_REACT_FLASK_CRUD_AWS/
+ls -la
+sudo python3 -m venv venv
+source venv/bin/activate 
+sudo venv/bin/python3 -m pip install -r requirements.txt
+
+
 
 
 Control de cambio
