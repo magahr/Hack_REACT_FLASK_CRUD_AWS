@@ -198,4 +198,5 @@ Control de cambio
 2.- git commit -m "17-11-2024 - Conecting with AWS and testing the API"
 3.- git commit -m "15-12-2024 - Testing my backend with flask in AWS"
 4.- git commit -m "15-12-2024 - Updating the name of requirements.txt"
+5.- git commit -m "29-12-2024 - Updating CORS"
 

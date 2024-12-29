@@ -10,7 +10,10 @@ import os
 load_dotenv()
 
 app = Flask(__name__) 
-CORS(app)
+
+#CORS(app)
+# Configuración de CORS para permitir solicitudes desde cualquier origen
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 db_user = os.getenv('DB_USER')
 db_password = os.getenv('DB_PASSWORD')
