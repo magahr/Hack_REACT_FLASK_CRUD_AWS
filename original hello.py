@@ -1,4 +1,5 @@
-# CON LA BASE DE DATOS AWS BD formulario
+# CON LA BASE DE DATOS  AWS  BD formulario
+
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
@@ -11,6 +12,7 @@ load_dotenv()
 
 app = Flask(__name__) 
 
+#CORS(app)
 # Configuración de CORS para permitir solicitudes desde cualquier origen
 CORS(app, resources={r"/*": {"origins": "*"}})
 
@@ -25,8 +27,11 @@ db_url = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+# dhasta aqui habia una conexion con una base de datos postgress local
+
 
 # Creación del modelo de Formulario (modelo - tabla de la base de datos)
+#id, nombre, email, edad
 class Formulario(db.Model):
      nombre = db.Column(db.String(50), nullable = False)
      email = db.Column(db.String(50), nullable = False)
@@ -35,16 +40,19 @@ class Formulario(db.Model):
     
      def to_dist(self):
          return {
-             'nombre': self.nombre,
-             'email': self.email,
-             'edad': self.edad,
-             'id': self.id
+                          'nombre':self.nombre, 
+                          'email':self.email,
+                          'edad':self.edad,
+                          'id':self.id
          }
 
-# Creación de la Base de Datos y su tabla
+# Creación de la Base de Dato y su tabla
 with app.app_context():
      db.create_all()
+
+#Verificar la conexion a la base de datos
      try:  
+        #  #Realizamos una consulta simple
         db.session.execute(text('SELECT 1'))
         print("Conexion a la base de datos exitosa")
      except Exception as e:
@@ -54,26 +62,36 @@ with app.app_context():
 def hello_world():
     return "<p> Hello, From AWS - My back and BD is in AWS - !</p>"
 
+
+# POST -> Se utiliza para enviar datos al servidor para su procesamiento
+# Ruta para crear un estudiante.
 @app.route('/create-formulario', methods=['POST'])
 def create_formulario():
     data = request.json
-    new_formulario = Formulario(nombre=data['nombre'], edad=data['edad'], email=data['email']) 
+    new_formulario =Formulario(nombre = data['nombre'],
+                          edad = data['edad'],
+                          email = data['email'] ) 
     db.session.add(new_formulario)
     db.session.commit()
-    return jsonify({'message': 'Usuario creado correctamente', 'data': new_formulario.to_dist()})
+    return jsonify({'message': 'Usuario creado correctamente', 
+                    'data': new_formulario.to_dist()})
 
+# GET -> Se utiliza para recuperar informacion del servidor
 @app.route('/formularios', methods=['GET'])
 def get_formularios():
     formularios = Formulario.query.all()
     return jsonify([formulario.to_dist() for formulario in formularios])
 
+# #  Ruta para obtener un usuario por params ( Por parametro de ruta )
 @app.route('/formularios/<int:formulario_id>', methods=['GET'])
 def get_formulario_by_id(formulario_id):
     formulario = Formulario.query.get(formulario_id)
     if formulario:
-        return jsonify(formulario.to_dist())
+           return jsonify(formulario.to_dist())
     return jsonify({'message': 'El usuario no ha sido encontrado'})
+    
 
+# # AQUI Ruta para actualizar parcialmente un usuario
 @app.route('/patch-formulario/<int:formulario_id>', methods=['PATCH'])
 def update_one_formulario(formulario_id):
     data = request.json
@@ -83,11 +101,13 @@ def update_one_formulario(formulario_id):
            setattr(formulario, key, value)
        db.session.commit()
        return jsonify({'message': 'Usuario actualizado parcialmente', 'data': formulario.to_dist()})
-    return jsonify({'message': 'Usuario no encontrado'})
+    return jsonify({'message': 'Usuario actualizado parcialmente'})
 
+# # Ruta para eliminar un usuario por query params
 @app.route('/delete-formulario/<int:formulario_id>', methods=['DELETE'])
 def delete_formulario_by_nombre(formulario_id):
     formulario = Formulario.query.get(formulario_id)
+
     if formulario:
         db.session.delete(formulario)
         db.session.commit()
@@ -95,6 +115,5 @@ def delete_formulario_by_nombre(formulario_id):
     else:
         return jsonify({'message': 'Usuario no encontrado'}), 404
 
-# Asegúrate de que Flask escuche en todas las interfaces y el puerto 5000
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+
+
